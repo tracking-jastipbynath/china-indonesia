@@ -1,0 +1,12 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /shipments/{resi} {
+      // Public boleh membaca satu dokumen dengan ID resi; daftar semua resi perlu login.
+      allow get: if true;
+      allow list: if request.auth != null;
+      // Perubahan data hanya untuk akun yang berhasil login Firebase Authentication.
+      allow create, update, delete: if request.auth != null;
+    }
+  }
+}
